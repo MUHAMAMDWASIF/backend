@@ -27,7 +27,15 @@ router.post(
       password: hash,
       email: req.body.email,
     })
-      .then((user) => res.json({ success: true, authtoken }))
+    .then((user) => {
+      const data = {
+        user: {
+          id: user.id,
+        },
+    };
+      const authtoken = jwt.sign(data, process.env.SECRECT_KEY) 
+        res.json({ success: true, authtoken });
+      })
       .catch((err) => {
         console.log(err);
         res.json({
@@ -35,12 +43,6 @@ router.post(
           message: err.message,
         });
       });
-    const data = {
-      user: {
-        id: user.id,
-      },
-    };
-    const authtoken = jwt.sign(data, process.env.SECRECT_KEY);
   }
 );
 
