@@ -5,7 +5,9 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const login = require("../middlewear/login");
-
+router.get("/",(req ,res)=>{
+  res.send("hello")
+})
 router.post(
   "/createuser",
   [
