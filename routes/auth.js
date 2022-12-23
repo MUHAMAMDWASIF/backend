@@ -29,12 +29,13 @@ router.post(
     })
     .then((user) => {
       const data = {
-        user: {
+        User: {
           id: user.id,
         },
     };
       const authtoken = jwt.sign(data, process.env.SECRECT_KEY) 
-        res.json({ success: true, authtoken });
+      success = true
+      res.json({ success , authtoken });
       })
       .catch((err) => {
         console.log(err);
