@@ -5,9 +5,9 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const login = require("../middlewear/login");
-router.get("/",(req ,res)=>{
-  res.send("hello")
-})
+router.get("/", (req, res) => {
+  res.send("hello");
+});
 router.post(
   "/createuser",
   [
@@ -24,20 +24,20 @@ router.post(
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(req.body.password, salt);
 
-    const user = User.create({
+    User.create({
       name: req.body.name,
       password: hash,
       email: req.body.email,
     })
-    .then((user) => {
-      const data = {
-        User: {
-          id: user.id,
-        },
-    };
-      const authtoken = jwt.sign(data, process.env.SECRECT_KEY) 
-      success = true
-      res.json({ success , authtoken });
+      .then((user) => {
+        const data = {
+          user: {
+            id: user._id,
+          },
+        };
+        const authtoken = jwt.sign(data, process.env.SECRECT_KEY);
+        success = true;
+        res.json({ success, authtoken });
       })
       .catch((err) => {
         console.log(err);
@@ -48,7 +48,6 @@ router.post(
       });
   }
 );
-
 router.post(
   "/login",
   [body("email").isEmail(), body("password").isLength({ min: 5 })],
