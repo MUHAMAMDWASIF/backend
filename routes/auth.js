@@ -16,6 +16,12 @@ router.post(
     body("name").isLength({ min: 3 }),
   ],
   async (req, res) => {
+    let user = await User.findOne({ email: req.body.email });
+    if (user) {
+      return res
+        .status(400)
+        .send({ error: "Please Enter a Unique Value for Email" });
+    }
     let success = false;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
